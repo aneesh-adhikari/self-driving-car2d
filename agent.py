@@ -18,7 +18,7 @@ class Agent:
     def reset(self):
         self.fitness = 0
         self.rotation = r.random()
-        self.position       = [730, 350] # [x, y] position
+        self.position       = [c.game['agent_startx'], c.game['agent_starty']] # [x, y] position
 
 
     def update(self, targets):

@@ -6,7 +6,7 @@ game = dict(
     height              = 800, # game height
     g_name              = "GAME", # game name
     g_time              = 4000, # game time
-    t_time              = 4000, # game testing time
+    t_time              = 1000, # game testing time
     fps                 = 60, # frame per second
     delay               = 20, # terminal update delay
     n_best              = 5, # number of best agents
@@ -18,7 +18,9 @@ game = dict(
     r_track             = 2., # default speed of right track
     r_min               = -0.1, # minimum rotation rate
     r_max               = 0.1, # maximum rotation rate
-    num_walls           = 520
+    num_walls           = 520,
+    agent_startx        = 730,
+    agent_starty        = 350
 )
 
 # configuration for image sources
