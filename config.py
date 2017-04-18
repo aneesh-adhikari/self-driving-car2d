@@ -28,3 +28,8 @@ image = dict(
     agent       = "asset/agent.png", # path of agent image file
     target      = "asset/target.png", # path of target image file
 )
+nnet = dict(
+    n_inputs = 4,
+    n_outputs = 2,
+    n_hidden_nodes = 2,
+)
