@@ -7,7 +7,7 @@ import pygame
 import game
 import config
 
-from ANN import ANN
+from druvANN import ANN
 
 from deap import base
 from deap import creator

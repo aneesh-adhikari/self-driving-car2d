@@ -27,7 +27,6 @@ class Game:
             target_coor.append((float(a[0]), float(a[1])))
 
         self.targets    = [T(tup) for tup in target_coor]
-        print target_coor
 
         self.generation = 0
 
@@ -114,15 +113,14 @@ class Game:
         self.clock.tick(c.game['fps'])
 
     def update_terminal(self):
-        return
-        # print "\033[2J\033[H",
-        # print c.game['g_name'],
-        # print "\tGEN.: " + str(self.generation),
-        # print "\tTIME: " + str(time.clock()) + '\n'
-        #
-        # for a in self.agents:
-        #     print "AGENT " + repr(a.number).rjust(2) + ": ",
-        #     print "FITN.:" + repr(a.fitness).rjust(5)
+        print "\033[2J\033[H",
+        print c.game['g_name'],
+        print "\tGEN.: " + str(self.generation),
+        print "\tTIME: " + str(time.clock()) + '\n'
+
+        for a in self.agents:
+            print "AGENT " + repr(a.number).rjust(2) + ": ",
+            print "FITN.:" + repr(a.fitness).rjust(5)
 
 # run the game without GA and ANN
 if __name__ == '__main__':
