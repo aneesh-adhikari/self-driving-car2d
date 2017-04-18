@@ -13,13 +13,12 @@ class Agent:
         self.speed          = 0.0 # movement speed
         self.track          = [4., 4.] # [l_track, r_track]
         self.vision         = [0.0, 0.0] # [x, y] vision
-        self.position       = [625, 400] # [x, y] position
         self.reset()
 
     def reset(self):
         self.fitness = 0
         self.rotation = r.random()
-        self.position       = [625, 400] # [x, y] position
+        self.position       = [730, 350] # [x, y] position
 
 
     def update(self, targets):

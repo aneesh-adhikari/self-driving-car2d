@@ -20,7 +20,7 @@ class Game:
 
         self.agents     = []
         target_coor = []
-        f = open('circle.txt', 'r+')
+        f = open('line.txt', 'r+')
         for i in range(0, c.game['num_walls']):
             s = f.readline()
             a = s.split(' ')
