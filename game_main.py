@@ -95,7 +95,7 @@ def run_GA():
         avg = sum(a) / c.game['n_agents']
         avgFitness.append(avg)
         bestFitness.append(a[0])
-        avgfile.write(avg)
+        avgfile.write(str(avg))
         bestfile.write(a[0])
         #collect fitness values from the simulation
         fitnesses = list(map(toolbox.evaluate, pop))
