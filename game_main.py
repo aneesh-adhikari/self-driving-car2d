@@ -96,7 +96,7 @@ def run_GA():
         avgFitness.append(avg)
         bestFitness.append(a[0])
         avgfile.write(str(avg))
-        bestfile.write(a[0])
+        bestfile.write(str(a[0]))
         #collect fitness values from the simulation
         fitnesses = list(map(toolbox.evaluate, pop))
         for ind, fit in zip(pop, fitnesses):
