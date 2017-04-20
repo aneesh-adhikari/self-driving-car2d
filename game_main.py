@@ -64,6 +64,9 @@ def run_GA():
     for ind, fit in zip(pop, fitnesses):
         ind.fitness.values = fit
 
+    bestfile = open('best.txt', 'w+')
+    avgfile = open('avg.txt', 'w+')
+
     #training
     for g in range(1, NGEN):
         my_game.generation += 1
@@ -92,6 +95,8 @@ def run_GA():
         avg = sum(a) / c.game['n_agents']
         avgFitness.append(avg)
         bestFitness.append(a[0])
+        avgfile.write(avg)
+        bestfile.write(a[0])
         #collect fitness values from the simulation
         fitnesses = list(map(toolbox.evaluate, pop))
         for ind, fit in zip(pop, fitnesses):
@@ -103,6 +108,9 @@ def run_GA():
     plt.xlabel('Generation Number')
     plt.ylabel(' Fitness')
     plt.show()
+
+    avgfile.close()
+    bestfile.close()
 
     #raw_input("Training is over!")
     #while True:
