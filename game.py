@@ -7,6 +7,7 @@ import util
 import config as c
 from agent import Agent as A
 from target import Target as T
+import numpy as np
 
 class Game:
     def __init__(self):
@@ -60,7 +61,7 @@ class Game:
                     None
                 if event.type == KEYDOWN:
                     if event.key == K_ESCAPE:
-                        return [a.fitness for a in self.agents]
+                        quit()
                     else:
                         None
 
@@ -68,6 +69,12 @@ class Game:
             if i % c.game['delay'] == 0: self.update_terminal()
             if display: self.process_graphic()
 
+        for a in self.agents:
+            startx = c.game['agent_startx']
+            starty = c.game['agent_starty']
+            endx = a.position[0]
+            endy = a.position[1]
+            a.fitness = int(round(np.sqrt((startx-endx)**2 + (starty-endy)**2)))
         return [a.fitness for a in self.agents]
 
     def game_logic(self):

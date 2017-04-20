@@ -32,12 +32,12 @@ def run_GA():
 
     #create new game
     my_game = game.Game()
-    creator.create("FitnessMax", base.Fitness, weights=(1.0,))
+    creator.create("FitnessMax", base.Fitness, weights=(-1.0,))
     creator.create("Individual", list, fitness=creator.FitnessMax)
     toolbox = base.Toolbox()
     toolbox.register("weights", random.uniform,-4,4)
     numWeights = ((num_inputs +1) * num_hidden_nodes) + ((num_hidden_nodes+1) * num_outputs)
-    toolbox.register("individual", tools.initRepeat, creator.Individual, toolbox.weights, n =numWeights)
+    toolbox.register("individual", tools.initRepeat, creator.Individual, toolbox.weights, n = numWeights)
     toolbox.register("population", tools.initRepeat, list, toolbox.individual)
     toolbox.register("evaluate", evalANN)
 
@@ -110,5 +110,5 @@ def run_GA():
 
     pygame.quit()
 
-random.seed(3)
+# random.seed(3)
 run_GA()

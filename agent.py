@@ -13,6 +13,7 @@ class Agent:
         self.speed          = 0.0 # movement speed
         self.track          = [4., 4.] # [l_track, r_track]
         self.vision         = [0.0, 0.0] # [x, y] vision
+        self.position       = [0,0] #placeholder, set in reset
         self.reset()
 
     def reset(self):

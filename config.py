@@ -5,7 +5,7 @@ game = dict(
     width               = 800, # game width
     height              = 800, # game height
     g_name              = "GAME", # game name
-    g_time              = 4000, # game time
+    g_time              = 400, # game time
     t_time              = 1000, # game testing time
     fps                 = 60, # frame per second
     delay               = 20, # terminal update delay
@@ -19,7 +19,7 @@ game = dict(
     r_min               = -0.1, # minimum rotation rate
     r_max               = 0.1, # maximum rotation rate
     num_walls           = 520,
-    agent_startx        = 730,
+    agent_startx        = 50,
     agent_starty        = 350
 )
 
