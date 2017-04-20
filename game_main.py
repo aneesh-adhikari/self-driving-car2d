@@ -32,7 +32,7 @@ def run_GA():
 
     #create new game
     my_game = game.Game()
-    creator.create("FitnessMax", base.Fitness, weights=(-1.0,))
+    creator.create("FitnessMax", base.Fitness, weights=(1.0,))
     creator.create("Individual", list, fitness=creator.FitnessMax)
     toolbox = base.Toolbox()
     toolbox.register("weights", random.uniform,-4,4)
@@ -55,7 +55,7 @@ def run_GA():
         ann = ANN(num_inputs, num_hidden_nodes, num_outputs, ind)
         my_game.add_agent(ann)
 
-    a = my_game.game_loop(True)
+    a = my_game.game_loop(False)
     avg = sum(a) / c.game['n_agents']
     avgFitness.append(avg)
     bestFitness.append(a[0])
@@ -91,7 +91,7 @@ def run_GA():
             ann = ANN(num_inputs, num_hidden_nodes, num_outputs, ind)
             my_game.add_agent(ann)
 
-        a = my_game.game_loop(True)
+        a = my_game.game_loop(False)
         avg = sum(a) / c.game['n_agents']
         avgFitness.append(avg)
         bestFitness.append(a[0])
@@ -111,12 +111,13 @@ def run_GA():
 
     avgfile.close()
     bestfile.close()
-
+    while(1):
+        my_game.game_loop(True)
     #raw_input("Training is over!")
     #while True:
     #    my_game.game_loop(True)
 
     pygame.quit()
 
-# random.seed(3)
+random.seed(3)
 run_GA()

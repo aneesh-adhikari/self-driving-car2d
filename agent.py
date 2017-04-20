@@ -4,6 +4,7 @@ import pygame
 import random as r
 import config as c
 
+
 class Agent:
     def __init__(self, number, brain):
         self.number         = number # agent number
@@ -18,7 +19,7 @@ class Agent:
 
     def reset(self):
         self.fitness = 0
-        self.rotation = r.random()
+        self.rotation = (math.pi*1.5)
         self.position       = [c.game['agent_startx'], c.game['agent_starty']] # [x, y] position
 
 
