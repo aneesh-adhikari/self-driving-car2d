@@ -38,6 +38,7 @@ class Agent:
         inputs.append(normalized[0])
         inputs.append(normalized[1])
 
+
         inputs.append(self.vision[0])
         inputs.append(self.vision[1])
 

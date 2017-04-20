@@ -33,5 +33,5 @@ image = dict(
 nnet = dict(
     n_inputs = 4,
     n_outputs = 2,
-    n_hidden_nodes = 2,
+    n_hidden_nodes = 8,
 )
