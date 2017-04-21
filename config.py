@@ -18,7 +18,7 @@ game = dict(
     r_track             = 2., # default speed of right track
     r_min               = -0.1, # minimum rotation rate
     r_max               = 0.1, # maximum rotation rate
-    num_walls           = 520,
+    num_walls           = 720,
     agent_startx        = 50,
     agent_starty        = 350
 )

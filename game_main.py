@@ -74,7 +74,7 @@ def run_GA():
         #select 25 of best individuals
         numSelect = int(round(float(g)/NGEN * c.game['n_agents']))
         #offspring = toolbox.select(pop, tournsize = 2, k = c.game['n_agents']-numSelect)
-        offspring = toolbox.select(pop, tournsize = 2, k = 25)
+        offspring = toolbox.select(pop, tournsize = 2, k = 95)
 
         #choose 2 of best parents
         #parents = tools.selBest(pop, k = numSelect)
@@ -95,8 +95,8 @@ def run_GA():
         avg = sum(a) / c.game['n_agents']
         avgFitness.append(avg)
         bestFitness.append(a[0])
-        avgfile.write(str(avg))
-        bestfile.write(str(a[0]))
+        avgfile.write(str(avg)+'\n')
+        bestfile.write(str(a[0]) + '\n')
         #collect fitness values from the simulation
         fitnesses = list(map(toolbox.evaluate, pop))
         for ind, fit in zip(pop, fitnesses):
