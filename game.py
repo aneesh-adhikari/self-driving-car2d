@@ -85,6 +85,8 @@ class Game:
             endx = a.position[0]
             endy = a.position[1]
             a.fitness = int(round(np.sqrt((startx-endx)**2 + (starty-endy)**2)))
+            if endy < 70:
+                a.fitness += 1000
         return [a.fitness for a in self.agents]
 
     def game_logic(self):

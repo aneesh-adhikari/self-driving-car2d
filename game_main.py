@@ -50,7 +50,7 @@ def run_GA():
     #define selection, crossover, and mutuation functions
     toolbox.register("select", tools.selTournament, tournsize = 2)
     toolbox.register("mate", tools.cxUniform, indpb = 0.15)
-    toolbox.register("mutate", tools.mutGaussian, mu = 0, sigma = 1 , indpb = 0.15)
+    toolbox.register("mutate", tools.mutGaussian, mu = 0, sigma = 10, indpb = 0.2)
 
     CXPB, MUTPB, NGEN = .15, .2, 100
 
@@ -80,11 +80,11 @@ def run_GA():
         #select 25 of best individuals
         numSelect = int(round(float(g)/NGEN * c.game['n_agents']))
         #offspring = toolbox.select(pop, tournsize = 2, k = c.game['n_agents']-numSelect)
-        offspring = toolbox.select(pop, tournsize = 2, k = 95)
+        offspring = toolbox.select(pop, tournsize = 2, k = 190)
 
         #choose 2 of best parents
         #parents = tools.selBest(pop, k = numSelect)
-        parents = tools.selBest(pop, k = 5)
+        parents = tools.selBest(pop, k = 10)
 
         #perform crossover and mutation on offspring
         offspring = algorithms.varAnd(offspring,toolbox,CXPB,MUTPB)
@@ -112,11 +112,6 @@ def run_GA():
             ind.fitness.values = fit
     gens = range(len(avgFitness))
     gens2 = range(len(avgFitness))
-#    plt.plot(gens, avgFitness, color = 'black')
-#    plt.plot(gens2, bestFitness, color = 'blue')
-#    plt.xlabel('Generation Number')
-#    plt.ylabel(' Fitness')
-#    plt.show()
 
     avgfile.close()
     bestfile.close()
