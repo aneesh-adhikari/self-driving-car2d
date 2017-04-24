@@ -55,7 +55,7 @@ def run_GA():
         ann = ANN(num_inputs, num_hidden_nodes, num_outputs, ind)
         my_game.add_agent(ann)
 
-    a = my_game.game_loop(False)
+    a = my_game.game_loop(True)
     avg = sum(a) / c.game['n_agents']
     avgFitness.append(avg)
     bestFitness.append(a[0])
@@ -91,7 +91,7 @@ def run_GA():
             ann = ANN(num_inputs, num_hidden_nodes, num_outputs, ind)
             my_game.add_agent(ann)
         if ( g != NGEN-1):
-            a = my_game.game_loop(False)
+            a = my_game.game_loop(True)
         else:
             a = my_game.game_loop(True)
         avg = sum(a) / c.game['n_agents']

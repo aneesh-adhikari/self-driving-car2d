@@ -10,10 +10,9 @@ game = dict(
     fps                 = 60, # frame per second
     delay               = 20, # terminal update delay
     n_best              = 5, # number of best agents
-    n_agents            = 200, # number of agents
-    n_targets           = 20, # number of targets
+    n_agents            = 100, # number of agents
     s_agent             = 28, # size of an agent
-    s_target            = 2, # size of a target
+    s_target            = 2.5, # size of a target
     l_track             = 2., # default speed of left track
     r_track             = 2., # default speed of right track
     r_min               = -0.1, # minimum rotation rate
@@ -30,7 +29,7 @@ image = dict(
     target      = "asset/target.png", # path of target image file
 )
 nnet = dict(
-    n_inputs = 4,
+    n_inputs = 3,
     n_outputs = 2,
     n_hidden_nodes = 8,
 )

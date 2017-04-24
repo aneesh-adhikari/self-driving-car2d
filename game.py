@@ -55,7 +55,10 @@ class Game:
     def game_loop(self, display=True):
         for i in range(c.game['g_time']):
 
-            self.game_logic()
+            num = self.game_logic()
+
+            if num == c.game['n_agents']:
+                break
 
             for event in pygame.event.get():
                 if event.type == MOUSEBUTTONUP:
@@ -79,14 +82,18 @@ class Game:
         return [a.fitness for a in self.agents]
 
     def game_logic(self):
+        numCrashed = 0
         for a in self.agents:
 
             #a.update(self.targets)
 
             if not a.check_collision(self.targets) != -1:
                 a.update(self.targets)
+            else:
+                numCrashed += 1
 
         self.agents = util.quicksort(self.agents)
+        return numCrashed
 
 	# shows graphics of the game using pygame
     def process_graphic(self):

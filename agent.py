@@ -1,9 +1,11 @@
 # agent.py
+from __future__ import division
 import math
 import pygame
 import random as r
 import config as c
-
+import copy
+import numpy as np
 
 class Agent:
     def __init__(self, number, brain):
@@ -15,15 +17,60 @@ class Agent:
         self.track          = [4., 4.] # [l_track, r_track]
         self.vision         = [0.0, 0.0] # [x, y] vision
         self.position       = [0,0] #placeholder, set in reset
+        self.hasCrashed     = False
         self.reset()
 
     def reset(self):
         self.fitness = 0
         self.rotation = (math.pi*1.5)
-        self.position       = [c.game['agent_startx'], c.game['agent_starty']] # [x, y] position
+        self.position = [c.game['agent_startx'], c.game['agent_starty']] # [x, y] position
+        self.hasCrashed = False
+        self.vision[0] = -math.sin(self.rotation)
+        self.vision[1] = math.cos(self.rotation)
 
 
     def update(self, targets):
+
+        straightdist = -1.0
+        checkpos = copy.deepcopy(self.position)
+        while straightdist == -1.0:
+            if checkpos[0] >= 800 or checkpos[1] >= 800:
+                return
+            s = pygame.display.get_surface()
+            #print s.get_at((int(round(checkpos[0])), int(round(checkpos[1])))).g
+            color = s.get_at((int(round(checkpos[0])), int(round(checkpos[1]))))
+            if color.g == 255:
+                straightdist = np.sqrt((checkpos[0]-self.position[0])**2 + (checkpos[1]-self.position[1])**2)
+            else:
+                checkpos = [checkpos[0]+self.vision[0], checkpos[1] + self.vision[1]]
+
+        leftdist = -1.0
+        tempvis = [-math.sin(self.rotation-((math.pi/2))), math.cos(self.rotation-((math.pi/2)))]
+        while leftdist == -1.0:
+            if checkpos[0] >= 800 or checkpos[1] >= 800:
+                return
+            s = pygame.display.get_surface()
+            #print s.get_at((int(round(checkpos[0])), int(round(checkpos[1])))).g
+            color = s.get_at((int(round(checkpos[0])), int(round(checkpos[1]))))
+            if color.g == 255:
+                leftdist = np.sqrt((checkpos[0]-self.position[0])**2 + (checkpos[1]-self.position[1])**2)
+            else:
+                checkpos = [checkpos[0]+self.tempvis[0], checkpos[1] + self.tempvis[1]]
+
+        rightdist = -1.0
+        tempvis = [-math.sin(self.rotation+((math.pi/2))), math.cos(self.rotation+((math.pi/2)))]
+        while rightdist == -1.0:
+            if checkpos[0] >= 800 or checkpos[1] >= 800:
+                return
+            s = pygame.display.get_surface()
+            #print s.get_at((int(round(checkpos[0])), int(round(checkpos[1])))).g
+            color = s.get_at((int(round(checkpos[0])), int(round(checkpos[1]))))
+            if color.g == 255:
+                rightdist = np.sqrt((checkpos[0]-self.position[0])**2 + (checkpos[1]-self.position[1])**2)
+            else:
+                checkpos = [checkpos[0]+self.tempvis[0], checkpos[1] + self.tempvis[1]]
+
+
         # get vector to closest mine
         closest = self.get_closest_target(targets)
         dist = math.sqrt(closest[0] * closest[0] + closest[1] * closest[1])
@@ -35,12 +82,9 @@ class Agent:
         # inputs for neural network
         inputs = []
 
-        inputs.append(normalized[0])
-        inputs.append(normalized[1])
-
-
-        inputs.append(self.vision[0])
-        inputs.append(self.vision[1])
+        inputs.append(straightdist)
+        inputs.append(rightdist)
+        inputs.append(leftdist)
 
         # outputs from neural network
         outputs = self.brain.evaluate(inputs)
@@ -102,6 +146,7 @@ class Agent:
         dist = math.sqrt(diff[0] * diff[0] + diff[1] * diff[1])
 
         if dist < (c.game['s_target'] + c.game['s_agent']):
+            self.hasCrashed = True
             return self.t_closest
 
         return -1
