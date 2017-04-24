@@ -1,18 +1,20 @@
 import matplotlib.pyplot as plt
 
-f = open('results4-3.txt', 'r+')
+f = open('avg.txt', 'r+')
+f2 = open('best.txt', 'r+')
 
 s = f.readline()
+s2 = f2.readline()
 maxes = []
 avgs = []
 
 while s != '':
-	a = map(float, s.split(' '))
-	avgs.append(a[0])
-	maxes.append(a[1])
+	avgs.append(int(s))
+	maxes.append(int(s2))
 	s = f.readline()
+	s2 = f2.readline()
 
-plt.plot(range(0,51), avgs, ls='-', lw = 2, c = 'r')
-plt.plot(range(0,51), maxes, ls='-', lw = 2, c = 'b')
+plt.plot(range(0,99), avgs, ls='-', lw = 2, c = 'r')
+plt.plot(range(0,99), maxes, ls='-', lw = 2, c = 'b')
 
 plt.show()
