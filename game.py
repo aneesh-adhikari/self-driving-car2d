@@ -21,11 +21,12 @@ class Game:
 
         self.agents     = []
         target_coor = []
-        f = open('line.txt', 'r+')
-        for i in range(0, c.game['num_walls']):
-            s = f.readline()
+        f = open('L.txt', 'r+')
+        s = f.readline()
+        while s != '':
             a = s.split(' ')
             target_coor.append((float(a[0]), float(a[1])))
+            s = f.readline()
 
         self.targets    = [T(tup) for tup in target_coor]
 

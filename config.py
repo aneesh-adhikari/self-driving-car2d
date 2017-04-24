@@ -10,7 +10,7 @@ game = dict(
     fps                 = 60, # frame per second
     delay               = 20, # terminal update delay
     n_best              = 5, # number of best agents
-    n_agents            = 100, # number of agents
+    n_agents            = 200, # number of agents
     n_targets           = 20, # number of targets
     s_agent             = 28, # size of an agent
     s_target            = 2, # size of a target
@@ -18,7 +18,6 @@ game = dict(
     r_track             = 2., # default speed of right track
     r_min               = -0.1, # minimum rotation rate
     r_max               = 0.1, # maximum rotation rate
-    num_walls           = 720,
     agent_startx        = 50,
     agent_starty        = 350
 )
