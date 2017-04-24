@@ -46,7 +46,7 @@ def run_GA():
     toolbox.register("mate", tools.cxUniform, indpb = 0.15)
     toolbox.register("mutate", tools.mutGaussian, mu = 0, sigma = 1 , indpb = 0.15)
 
-    CXPB, MUTPB, NGEN = .15, .2, 30
+    CXPB, MUTPB, NGEN = .15, .2, 100
 
     pop = toolbox.population( n = c.game['n_agents'])
 
@@ -55,7 +55,7 @@ def run_GA():
         ann = ANN(num_inputs, num_hidden_nodes, num_outputs, ind)
         my_game.add_agent(ann)
 
-    a = my_game.game_loop(True)
+    a = my_game.game_loop(False)
     avg = sum(a) / c.game['n_agents']
     avgFitness.append(avg)
     bestFitness.append(a[0])
@@ -91,8 +91,9 @@ def run_GA():
             ann = ANN(num_inputs, num_hidden_nodes, num_outputs, ind)
             my_game.add_agent(ann)
         if ( g != NGEN-1):
-            a = my_game.game_loop(True)
+            a = my_game.game_loop(False)
         else:
+            _ = raw_input("waiting")
             a = my_game.game_loop(True)
         avg = sum(a) / c.game['n_agents']
         avgFitness.append(avg)

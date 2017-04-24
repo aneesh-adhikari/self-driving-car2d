@@ -30,7 +30,9 @@ class Game:
             a = s.split(' ')
             target_coor.append((float(a[0]), float(a[1])))
             s = f.readline()
-            Grid.grid[int(a[0])][int(a[1])] = True
+            for i in range(-2, 3):
+                for j in range(-2, 3):
+                    Grid.grid[int(a[0])+i+j][int(a[1])+i+j] = True
 
         self.targets    = [T(tup) for tup in target_coor]
 

@@ -6,6 +6,7 @@ import random as r
 import config as c
 import copy
 import numpy as np
+from grid import Grid
 
 class Agent:
     def __init__(self, number, brain):
@@ -34,15 +35,7 @@ class Agent:
         straightdist = -1.0
         checkpos = copy.deepcopy(self.position)
         while straightdist == -1.0:
-            if checkpos[0] >= 800 or checkpos[1] >= 800:
-                print checkpos
-                print 'well shit'
-                return
-            s = pygame.display.get_surface()
-            #print s.get_at((int(round(checkpos[0])), int(round(checkpos[1])))).g
-            color = s.get_at((int(checkpos[0]), int(checkpos[1])))
-            # print color
-            if color.g == 255 and color.r == 0:
+            if Grid.grid[int(round(checkpos[0]))][int(round(checkpos[1]))]:
                 straightdist = np.sqrt((checkpos[0]-self.position[0])**2 + (checkpos[1]-self.position[1])**2)
             else:
                 checkpos = [checkpos[0]+self.vision[0]*.9, checkpos[1] + self.vision[1]*.9]
@@ -51,13 +44,7 @@ class Agent:
         leftdist = -1.0
         tempvis = [-math.sin(self.rotation-((math.pi/2))), math.cos(self.rotation-((math.pi/2)))]
         while leftdist == -1.0:
-            if checkpos[0] >= 800 or checkpos[1] >= 800:
-                print checkpos
-                print 'yikes'
-            s = pygame.display.get_surface()
-            #print s.get_at((int(checkpos[0]), int(checkpos[1]))).g
-            color = s.get_at((int(checkpos[0]), int(checkpos[1])))
-            if color.g == 255 and color.r == 0:
+            if Grid.grid[int(round(checkpos[0]))][int(round(checkpos[1]))]:
                 leftdist = np.sqrt((checkpos[0]-self.position[0])**2 + (checkpos[1]-self.position[1])**2)
             else:
                 checkpos = [checkpos[0]+tempvis[0]*.9, checkpos[1] + tempvis[1]*.9]
@@ -67,13 +54,7 @@ class Agent:
         rightdist = -1.0
         tempvis = [-math.sin(self.rotation+((math.pi/2))), math.cos(self.rotation+((math.pi/2)))]
         while rightdist == -1.0:
-            if checkpos[0] >= 800 or checkpos[1] >= 800:
-                print checkpos
-                print 'oh no'
-            s = pygame.display.get_surface()
-            #print s.get_at((int(checkpos[0]), int(checkpos[1]))).g
-            color = s.get_at((int(checkpos[0]), int(checkpos[1])))
-            if color.g == 255 and color.r == 0:
+            if Grid.grid[int(round(checkpos[0]))][int(round(checkpos[1]))]:
                 rightdist = np.sqrt((checkpos[0]-self.position[0])**2 + (checkpos[1]-self.position[1])**2)
             else:
                 checkpos = [checkpos[0]+tempvis[0]*.9, checkpos[1] + tempvis[1]*.9]
@@ -82,13 +63,7 @@ class Agent:
         NWDist = -1.0
         tempvis = [-math.sin(self.rotation-((math.pi/4))), math.cos(self.rotation-((math.pi/4)))]
         while NWDist == -1.0:
-            if checkpos[0] >= 800 or checkpos[1] >= 800:
-                print checkpos
-                print 'uh oh'
-            s = pygame.display.get_surface()
-            #print s.get_at((int(checkpos[0]), int(checkpos[1]))).g
-            color = s.get_at((int(checkpos[0]), int(checkpos[1])))
-            if color.g == 255 and color.r == 0:
+            if Grid.grid[int(round(checkpos[0]))][int(round(checkpos[1]))]:
                 NWDist = np.sqrt((checkpos[0]-self.position[0])**2 + (checkpos[1]-self.position[1])**2)
             else:
                 checkpos = [checkpos[0]+tempvis[0]*.9, checkpos[1] + tempvis[1]*.9]
@@ -98,12 +73,7 @@ class Agent:
         NEDist = -1.0
         tempvis = [-math.sin(self.rotation+((math.pi/4))), math.cos(self.rotation+((math.pi/4)))]
         while NEDist == -1.0:
-            if checkpos[0] >= 800 or checkpos[1] >= 800:
-                print 'FUCK'
-            s = pygame.display.get_surface()
-            #print s.get_at((int(checkpos[0]), int(checkpos[1]))).g
-            color = s.get_at((int(checkpos[0]), int(checkpos[1])))
-            if color.g == 255 and color.r == 0:
+            if Grid.grid[int(round(checkpos[0]))][int(round(checkpos[1]))]:
                 NEDist = np.sqrt((checkpos[0]-self.position[0])**2 + (checkpos[1]-self.position[1])**2)
             else:
                 checkpos = [checkpos[0]+tempvis[0]*.9, checkpos[1] + tempvis[1]*.9]
@@ -124,6 +94,8 @@ class Agent:
         inputs.append(leftdist)
         inputs.append(NWDist)
         inputs.append(NEDist)
+
+    #    print inputs
 
         # print inputs
 
