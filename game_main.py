@@ -29,6 +29,7 @@ def run_GA():
     num_inputs = c.nnet['n_inputs']
     num_hidden_nodes = c.nnet['n_hidden_nodes']
     num_outputs = c.nnet['n_outputs']
+    num_hidden_layers = c.nnet['n_hidden_layers']
 
     #create new game
     my_game = game.Game()
@@ -36,7 +37,12 @@ def run_GA():
     creator.create("Individual", list, fitness=creator.FitnessMax)
     toolbox = base.Toolbox()
     toolbox.register("weights", random.uniform,-4,4)
-    numWeights = ((num_inputs +1) * num_hidden_nodes) + ((num_hidden_nodes+1) * num_outputs)
+    # numWeights = ((num_inputs +1) * num_hidden_nodes) + ((num_hidden_nodes+1) * num_outputs)
+    numWeights = (num_inputs+1)*num_hidden_nodes[0]
+    for i in range(1, num_hidden_layers):
+        numWeights += (num_hidden_nodes[i-1]+1)*num_hidden_nodes[i]
+    numWeights += num_outputs*(num_hidden_nodes[-1]+1)
+
     toolbox.register("individual", tools.initRepeat, creator.Individual, toolbox.weights, n = numWeights)
     toolbox.register("population", tools.initRepeat, list, toolbox.individual)
     toolbox.register("evaluate", evalANN)
@@ -52,10 +58,10 @@ def run_GA():
 
     #Create Initial population with its own ANN
     for ind in pop:
-        ann = ANN(num_inputs, num_hidden_nodes, num_outputs, ind)
+        ann = ANN(num_inputs, num_hidden_nodes, num_outputs, ind, num_hidden_layers)
         my_game.add_agent(ann)
 
-    a = my_game.game_loop(False)
+    a = my_game.game_loop(True)
     avg = sum(a) / c.game['n_agents']
     avgFitness.append(avg)
     bestFitness.append(a[0])
@@ -88,7 +94,7 @@ def run_GA():
         count = 1
         #add agents with new brains
         for ind in pop:
-            ann = ANN(num_inputs, num_hidden_nodes, num_outputs, ind)
+            ann = ANN(num_inputs, num_hidden_nodes, num_outputs, ind, num_hidden_layers)
             my_game.add_agent(ann)
         if ( g != NGEN-1):
             a = my_game.game_loop(False)
