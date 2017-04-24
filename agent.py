@@ -35,41 +35,78 @@ class Agent:
         checkpos = copy.deepcopy(self.position)
         while straightdist == -1.0:
             if checkpos[0] >= 800 or checkpos[1] >= 800:
+                print checkpos
+                print 'well shit'
                 return
             s = pygame.display.get_surface()
             #print s.get_at((int(round(checkpos[0])), int(round(checkpos[1])))).g
-            color = s.get_at((int(round(checkpos[0])), int(round(checkpos[1]))))
-            if color.g == 255:
+            color = s.get_at((int(checkpos[0]), int(checkpos[1])))
+            # print color
+            if color.g == 255 and color.r == 0:
                 straightdist = np.sqrt((checkpos[0]-self.position[0])**2 + (checkpos[1]-self.position[1])**2)
             else:
-                checkpos = [checkpos[0]+self.vision[0], checkpos[1] + self.vision[1]]
+                checkpos = [checkpos[0]+self.vision[0]*.9, checkpos[1] + self.vision[1]*.9]
 
+        checkpos = copy.deepcopy(self.position)
         leftdist = -1.0
         tempvis = [-math.sin(self.rotation-((math.pi/2))), math.cos(self.rotation-((math.pi/2)))]
         while leftdist == -1.0:
             if checkpos[0] >= 800 or checkpos[1] >= 800:
-                return
+                print checkpos
+                print 'yikes'
             s = pygame.display.get_surface()
-            #print s.get_at((int(round(checkpos[0])), int(round(checkpos[1])))).g
-            color = s.get_at((int(round(checkpos[0])), int(round(checkpos[1]))))
-            if color.g == 255:
+            #print s.get_at((int(checkpos[0]), int(checkpos[1]))).g
+            color = s.get_at((int(checkpos[0]), int(checkpos[1])))
+            if color.g == 255 and color.r == 0:
                 leftdist = np.sqrt((checkpos[0]-self.position[0])**2 + (checkpos[1]-self.position[1])**2)
             else:
-                checkpos = [checkpos[0]+self.tempvis[0], checkpos[1] + self.tempvis[1]]
+                checkpos = [checkpos[0]+tempvis[0]*.9, checkpos[1] + tempvis[1]*.9]
 
+
+        checkpos = copy.deepcopy(self.position)
         rightdist = -1.0
         tempvis = [-math.sin(self.rotation+((math.pi/2))), math.cos(self.rotation+((math.pi/2)))]
         while rightdist == -1.0:
             if checkpos[0] >= 800 or checkpos[1] >= 800:
-                return
+                print checkpos
+                print 'oh no'
             s = pygame.display.get_surface()
-            #print s.get_at((int(round(checkpos[0])), int(round(checkpos[1])))).g
-            color = s.get_at((int(round(checkpos[0])), int(round(checkpos[1]))))
-            if color.g == 255:
+            #print s.get_at((int(checkpos[0]), int(checkpos[1]))).g
+            color = s.get_at((int(checkpos[0]), int(checkpos[1])))
+            if color.g == 255 and color.r == 0:
                 rightdist = np.sqrt((checkpos[0]-self.position[0])**2 + (checkpos[1]-self.position[1])**2)
             else:
-                checkpos = [checkpos[0]+self.tempvis[0], checkpos[1] + self.tempvis[1]]
+                checkpos = [checkpos[0]+tempvis[0]*.9, checkpos[1] + tempvis[1]*.9]
 
+        checkpos = copy.deepcopy(self.position)
+        NWDist = -1.0
+        tempvis = [-math.sin(self.rotation-((math.pi/4))), math.cos(self.rotation-((math.pi/4)))]
+        while NWDist == -1.0:
+            if checkpos[0] >= 800 or checkpos[1] >= 800:
+                print checkpos
+                print 'uh oh'
+            s = pygame.display.get_surface()
+            #print s.get_at((int(checkpos[0]), int(checkpos[1]))).g
+            color = s.get_at((int(checkpos[0]), int(checkpos[1])))
+            if color.g == 255 and color.r == 0:
+                NWDist = np.sqrt((checkpos[0]-self.position[0])**2 + (checkpos[1]-self.position[1])**2)
+            else:
+                checkpos = [checkpos[0]+tempvis[0]*.9, checkpos[1] + tempvis[1]*.9]
+
+
+        checkpos = copy.deepcopy(self.position)
+        NEDist = -1.0
+        tempvis = [-math.sin(self.rotation+((math.pi/4))), math.cos(self.rotation+((math.pi/4)))]
+        while NEDist == -1.0:
+            if checkpos[0] >= 800 or checkpos[1] >= 800:
+                print 'FUCK'
+            s = pygame.display.get_surface()
+            #print s.get_at((int(checkpos[0]), int(checkpos[1]))).g
+            color = s.get_at((int(checkpos[0]), int(checkpos[1])))
+            if color.g == 255 and color.r == 0:
+                NEDist = np.sqrt((checkpos[0]-self.position[0])**2 + (checkpos[1]-self.position[1])**2)
+            else:
+                checkpos = [checkpos[0]+tempvis[0]*.9, checkpos[1] + tempvis[1]*.9]
 
         # get vector to closest mine
         closest = self.get_closest_target(targets)
@@ -85,6 +122,10 @@ class Agent:
         inputs.append(straightdist)
         inputs.append(rightdist)
         inputs.append(leftdist)
+        inputs.append(NWDist)
+        inputs.append(NEDist)
+
+        # print inputs
 
         # outputs from neural network
         outputs = self.brain.evaluate(inputs)

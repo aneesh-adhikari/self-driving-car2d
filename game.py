@@ -8,8 +8,11 @@ import config as c
 from agent import Agent as A
 from target import Target as T
 import numpy as np
+from grid import Grid
 
 class Game:
+
+
     def __init__(self):
         # pygame setup
         pygame.init()
@@ -27,6 +30,7 @@ class Game:
             a = s.split(' ')
             target_coor.append((float(a[0]), float(a[1])))
             s = f.readline()
+            Grid.grid[int(a[0])][int(a[1])] = True
 
         self.targets    = [T(tup) for tup in target_coor]
 
