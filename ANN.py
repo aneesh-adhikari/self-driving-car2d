@@ -30,7 +30,7 @@ class ANN(object):
         self.output_weights = np.array(weights[count:]).reshape(num_outputs,self.num_hidden_nodes[-1]+1)
 
     def activation(self, x):
-        a = 1/(1+np.exp(-x))
+        a = 4/(1+np.exp(-x))
         return a
 
     def evaluate(self,inputs):

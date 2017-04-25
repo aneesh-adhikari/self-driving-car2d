@@ -10,15 +10,18 @@ game = dict(
     fps                 = 60, # frame per second
     delay               = 20, # terminal update delay
     n_best              = 5, # number of best agents
-    n_agents            = 200, # number of agents
+    n_agents            = 50, # number of agents
     s_agent             = 28, # size of an agent
-    s_target            = 2.5, # size of a target
+    s_target            = 2, # size of a target
     l_track             = 2., # default speed of left track
     r_track             = 2., # default speed of right track
     r_min               = -0.1, # minimum rotation rate
     r_max               = 0.1, # maximum rotation rate
     agent_startx        = 50,
-    agent_starty        = 350
+    agent_starty        = 350,
+    n_gens              = 30,
+    percent_best        = .1,
+    n_gates             = 19
 )
 
 # configuration for image sources
@@ -31,6 +34,10 @@ image = dict(
 nnet = dict(
     n_inputs = 5,
     n_outputs = 2,
-    n_hidden_layers = 2,
-    n_hidden_nodes = [10, 10]
+    n_hidden_layers = 1,
+    n_hidden_nodes = [10]
 )
+
+gates = ["x30", "x60", "x90", "x120", "x150", "x180", "x210", "x240",
+"x270", "x300", "y300", "y270", "y240", "y210", "y180", "y150", "y120",
+"y90", "y60"]

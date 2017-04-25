@@ -79,26 +79,41 @@ class Game:
             if i % c.game['delay'] == 0: self.update_terminal()
             if display: self.process_graphic()
 
-        for a in self.agents:
-            startx = c.game['agent_startx']
-            starty = c.game['agent_starty']
-            endx = a.position[0]
-            endy = a.position[1]
-            a.fitness = int(round(np.sqrt((startx-endx)**2 + (starty-endy)**2)))
-            if endy < 70:
-                a.fitness += 1000
+        # for a in self.agents:
+        #     startx = c.game['agent_startx']
+        #     starty = c.game['agent_starty']
+        #     endx = a.position[0]
+        #     endy = a.position[1]
+        #     a.fitness = int(round(np.sqrt((startx-endx)**2 + (starty-endy)**2)))
+        #     if endy < 90:
+        #         a.fitness += 1000
+        #     if endy < 120:
+        #         a.fitness +=750
+        #     if endy < 150:
+        #         a.fitness += 200
         return [a.fitness for a in self.agents]
 
     def game_logic(self):
         numCrashed = 0
         for a in self.agents:
-
-            #a.update(self.targets)
-
             if not a.check_collision(self.targets) != -1:
                 a.update(self.targets)
             else:
                 numCrashed += 1
+            pos = a.position
+            index = a.gate
+
+            if index == 19:
+                continue
+            else:
+                s = c.gates[index]
+                num = int(s[1:])
+                if "x" in s and pos[0] > num:
+                    a.gate += 1
+                    a.fitness += 1
+                elif "y" in s and pos[1] < num:
+                    a.gate += 1
+                    a.fitness += 5
 
         self.agents = util.quicksort(self.agents)
         return numCrashed

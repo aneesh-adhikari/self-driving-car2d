@@ -48,11 +48,12 @@ def run_GA():
     toolbox.register("evaluate", evalANN)
 
     #define selection, crossover, and mutuation functions
-    toolbox.register("select", tools.selTournament, tournsize = 2)
+    toolbox.register("select", tools.selTournament, tournsize = 5)
     toolbox.register("mate", tools.cxUniform, indpb = 0.15)
-    toolbox.register("mutate", tools.mutGaussian, mu = 0, sigma = 10, indpb = 0.2)
+    toolbox.register("mutate", tools.mutGaussian, mu = 0, sigma = 10, indpb = 0.02)
 
-    CXPB, MUTPB, NGEN = .15, .2, 100
+    CXPB, MUTPB= .15, .2
+    NGEN = c.game['n_gens']
 
     pop = toolbox.population( n = c.game['n_agents'])
 
@@ -61,7 +62,7 @@ def run_GA():
         ann = ANN(num_inputs, num_hidden_nodes, num_outputs, ind, num_hidden_layers)
         my_game.add_agent(ann)
 
-    a = my_game.game_loop(True)
+    a = my_game.game_loop(False)
     avg = sum(a) / c.game['n_agents']
     avgFitness.append(avg)
     bestFitness.append(a[0])
@@ -80,11 +81,12 @@ def run_GA():
         #select 25 of best individuals
         numSelect = int(round(float(g)/NGEN * c.game['n_agents']))
         #offspring = toolbox.select(pop, tournsize = 2, k = c.game['n_agents']-numSelect)
-        offspring = toolbox.select(pop, tournsize = 2, k = 190)
+        percentBest = c.game['percent_best']
+        offspring = toolbox.select(pop, tournsize = 2, k = int(c.game['n_agents']*(1-percentBest)))
 
         #choose 2 of best parents
         #parents = tools.selBest(pop, k = numSelect)
-        parents = tools.selBest(pop, k = 10)
+        parents = tools.selBest(pop, k = int(percentBest*c.game['n_agents']))
 
         #perform crossover and mutation on offspring
         offspring = algorithms.varAnd(offspring,toolbox,CXPB,MUTPB)
@@ -110,8 +112,7 @@ def run_GA():
         fitnesses = list(map(toolbox.evaluate, pop))
         for ind, fit in zip(pop, fitnesses):
             ind.fitness.values = fit
-    gens = range(len(avgFitness))
-    gens2 = range(len(avgFitness))
+
 
     avgfile.close()
     bestfile.close()

@@ -19,6 +19,7 @@ class Agent:
         self.vision         = [0.0, 0.0] # [x, y] vision
         self.position       = [0,0] #placeholder, set in reset
         self.hasCrashed     = False
+        self.gate           = 0
         self.reset()
 
     def reset(self):
@@ -28,7 +29,7 @@ class Agent:
         self.hasCrashed = False
         self.vision[0] = -math.sin(self.rotation)
         self.vision[1] = math.cos(self.rotation)
-
+        self.gate = 0
 
     def update(self, targets):
 
