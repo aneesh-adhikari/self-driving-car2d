@@ -14,7 +14,7 @@ while s != '':
 	s = f.readline()
 	s2 = f2.readline()
 
-plt.plot(range(0,98), avgs, ls='-', lw = 2, c = 'r')
-plt.plot(range(0,98), maxes, ls='-', lw = 2, c = 'b')
+plt.plot(range(0,len(avgs)), avgs, ls='-', lw = 2, c = 'r')
+plt.plot(range(0,len(maxes)), maxes, ls='-', lw = 2, c = 'b')
 
 plt.show()
