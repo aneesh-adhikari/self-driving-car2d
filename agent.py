@@ -39,7 +39,7 @@ class Agent:
             if Grid.grid[int(round(checkpos[0]))][int(round(checkpos[1]))]:
                 straightdist = np.sqrt((checkpos[0]-self.position[0])**2 + (checkpos[1]-self.position[1])**2)
             else:
-                checkpos = [checkpos[0]+self.vision[0]*.9, checkpos[1] + self.vision[1]*.9]
+                checkpos = [checkpos[0]+self.vision[0], checkpos[1] + self.vision[1]]
 
         checkpos = copy.deepcopy(self.position)
         leftdist = -1.0
@@ -48,7 +48,7 @@ class Agent:
             if Grid.grid[int(round(checkpos[0]))][int(round(checkpos[1]))]:
                 leftdist = np.sqrt((checkpos[0]-self.position[0])**2 + (checkpos[1]-self.position[1])**2)
             else:
-                checkpos = [checkpos[0]+tempvis[0]*.9, checkpos[1] + tempvis[1]*.9]
+                checkpos = [checkpos[0]+tempvis[0], checkpos[1] + tempvis[1]]
 
 
         checkpos = copy.deepcopy(self.position)
@@ -58,7 +58,7 @@ class Agent:
             if Grid.grid[int(round(checkpos[0]))][int(round(checkpos[1]))]:
                 rightdist = np.sqrt((checkpos[0]-self.position[0])**2 + (checkpos[1]-self.position[1])**2)
             else:
-                checkpos = [checkpos[0]+tempvis[0]*.9, checkpos[1] + tempvis[1]*.9]
+                checkpos = [checkpos[0]+tempvis[0], checkpos[1] + tempvis[1]]
 
         checkpos = copy.deepcopy(self.position)
         NWDist = -1.0
@@ -67,7 +67,7 @@ class Agent:
             if Grid.grid[int(round(checkpos[0]))][int(round(checkpos[1]))]:
                 NWDist = np.sqrt((checkpos[0]-self.position[0])**2 + (checkpos[1]-self.position[1])**2)
             else:
-                checkpos = [checkpos[0]+tempvis[0]*.9, checkpos[1] + tempvis[1]*.9]
+                checkpos = [checkpos[0]+tempvis[0], checkpos[1] + tempvis[1]]
 
 
         checkpos = copy.deepcopy(self.position)
@@ -77,7 +77,7 @@ class Agent:
             if Grid.grid[int(round(checkpos[0]))][int(round(checkpos[1]))]:
                 NEDist = np.sqrt((checkpos[0]-self.position[0])**2 + (checkpos[1]-self.position[1])**2)
             else:
-                checkpos = [checkpos[0]+tempvis[0]*.9, checkpos[1] + tempvis[1]*.9]
+                checkpos = [checkpos[0]+tempvis[0], checkpos[1] + tempvis[1]]
 
         # get vector to closest mine
         closest = self.get_closest_target(targets)
@@ -95,10 +95,6 @@ class Agent:
         inputs.append(leftdist)
         inputs.append(NWDist)
         inputs.append(NEDist)
-
-    #    print inputs
-
-        # print inputs
 
         # outputs from neural network
         outputs = self.brain.evaluate(inputs)

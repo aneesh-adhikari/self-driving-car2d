@@ -19,8 +19,6 @@ game = dict(
     r_max               = 0.1, # maximum rotation rate
     agent_startx        = 50,
     agent_starty        = 350,
-    n_gens              = 30,
-    percent_best        = .1,
     n_gates             = 19
 )
 
@@ -41,3 +39,14 @@ nnet = dict(
 gates = ["x30", "x60", "x90", "x120", "x150", "x180", "x210", "x240",
 "x270", "x300", "y300", "y270", "y240", "y210", "y180", "y150", "y120",
 "y90", "y60"]
+
+ga = dict(
+    cx_prob         = .15,
+    mut_prob        = .2,
+    mate_prob       = .15,
+    n_gens          = 30,
+    mut_sigma       = 10,
+    mut_mu          = 0,
+    percent_best    = .05,
+    tourn_size      = 5
+)
