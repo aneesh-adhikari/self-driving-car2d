@@ -14,7 +14,6 @@ from ANN import ANN
 from deap import base, creator, tools, algorithms
 import numpy as np
 import sys
-import matplotlib.pyplot as plt
 
 
 def run_GA():
@@ -70,6 +69,7 @@ def run_GA():
 
     bestfile = open('best.txt', 'w+')
     avgfile = open('avg.txt', 'w+')
+    finalpop = open('pop.txt', 'w+')
 
     bestfile.write(str(a[0])+'\n')
     avgfile.write(str(avg)+'\n')
@@ -104,8 +104,13 @@ def run_GA():
         fitnesses = list(map(toolbox.evaluate, pop))
         for ind, fit in zip(pop, fitnesses):
             ind.fitness.values = fit
+        for i in pop:
+            for val in i:
+                finalpop.write(str(val) + " ")
+            finalpop.write('\n')
 
 
+    finalpop.close()
     avgfile.close()
     bestfile.close()
     pygame.quit()
