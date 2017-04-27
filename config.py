@@ -47,6 +47,6 @@ ga = dict(
     n_gens          = 30,
     mut_sigma       = 1,
     mut_mu          = 0,
-    percent_best    = .2,
-    tourn_size      = 10
+    percent_best    = .3,
+    tourn_size      = 3
 )
