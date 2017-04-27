@@ -8,7 +8,6 @@ def makeL(y):
 def connect(x, y):
     for i in range(x, y):
         f.write(str(1) + " " + str(i) + "\n")
-        f.write(str(i) + " " + str(1) + "\n")
 
 
 makeL(300)

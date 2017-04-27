@@ -20,6 +20,7 @@ class Agent:
         self.position       = [0,0] #placeholder, set in reset
         self.hasCrashed     = False
         self.gate           = 0
+        self.done           = False
         self.reset()
 
     def reset(self):
@@ -30,54 +31,78 @@ class Agent:
         self.vision[0] = -math.sin(self.rotation)
         self.vision[1] = math.cos(self.rotation)
         self.gate = 0
+        self.done = False
 
     def update(self, targets):
 
         straightdist = -1.0
         checkpos = copy.deepcopy(self.position)
         while straightdist == -1.0:
-            if Grid.grid[int(round(checkpos[0]))][int(round(checkpos[1]))]:
-                straightdist = np.sqrt((checkpos[0]-self.position[0])**2 + (checkpos[1]-self.position[1])**2)
+            x = int(round(checkpos[0]))
+            y = int(round(checkpos[1]))
+            if x >= 0 and x < c.game['width'] and y >= 0 and y < c.game['height']:
+                if Grid.grid[x][y]:
+                    straightdist = np.sqrt((checkpos[0]-self.position[0])**2 + (checkpos[1]-self.position[1])**2)
+                else:
+                    checkpos = [checkpos[0]+self.vision[0], checkpos[1] + self.vision[1]]
             else:
-                checkpos = [checkpos[0]+self.vision[0], checkpos[1] + self.vision[1]]
+                straightdist = 9001.0
 
         checkpos = copy.deepcopy(self.position)
         leftdist = -1.0
         tempvis = [-math.sin(self.rotation-((math.pi/2))), math.cos(self.rotation-((math.pi/2)))]
         while leftdist == -1.0:
-            if Grid.grid[int(round(checkpos[0]))][int(round(checkpos[1]))]:
-                leftdist = np.sqrt((checkpos[0]-self.position[0])**2 + (checkpos[1]-self.position[1])**2)
+            x = int(round(checkpos[0]))
+            y = int(round(checkpos[1]))
+            if x >= 0 and x < c.game['width'] and y >= 0 and y < c.game['height']:
+                if Grid.grid[x][y]:
+                    leftdist = np.sqrt((checkpos[0]-self.position[0])**2 + (checkpos[1]-self.position[1])**2)
+                else:
+                    checkpos = [checkpos[0]+tempvis[0], checkpos[1] + tempvis[1]]
             else:
-                checkpos = [checkpos[0]+tempvis[0], checkpos[1] + tempvis[1]]
-
+                leftdist = 9001.0
 
         checkpos = copy.deepcopy(self.position)
         rightdist = -1.0
         tempvis = [-math.sin(self.rotation+((math.pi/2))), math.cos(self.rotation+((math.pi/2)))]
         while rightdist == -1.0:
-            if Grid.grid[int(round(checkpos[0]))][int(round(checkpos[1]))]:
-                rightdist = np.sqrt((checkpos[0]-self.position[0])**2 + (checkpos[1]-self.position[1])**2)
+            x = int(round(checkpos[0]))
+            y = int(round(checkpos[1]))
+            if x >= 0 and x < c.game['width'] and y >= 0 and y < c.game['height']:
+                if Grid.grid[x][y]:
+                    rightdist = np.sqrt((checkpos[0]-self.position[0])**2 + (checkpos[1]-self.position[1])**2)
+                else:
+                    checkpos = [checkpos[0]+tempvis[0], checkpos[1] + tempvis[1]]
             else:
-                checkpos = [checkpos[0]+tempvis[0], checkpos[1] + tempvis[1]]
+                rightdist = 9001.0
 
         checkpos = copy.deepcopy(self.position)
         NWDist = -1.0
         tempvis = [-math.sin(self.rotation-((math.pi/4))), math.cos(self.rotation-((math.pi/4)))]
         while NWDist == -1.0:
-            if Grid.grid[int(round(checkpos[0]))][int(round(checkpos[1]))]:
-                NWDist = np.sqrt((checkpos[0]-self.position[0])**2 + (checkpos[1]-self.position[1])**2)
+            x = int(round(checkpos[0]))
+            y = int(round(checkpos[1]))
+            if x >= 0 and x < c.game['width'] and y >= 0 and y < c.game['height']:
+                if Grid.grid[x][y]:
+                    NWDist = np.sqrt((checkpos[0]-self.position[0])**2 + (checkpos[1]-self.position[1])**2)
+                else:
+                    checkpos = [checkpos[0]+tempvis[0], checkpos[1] + tempvis[1]]
             else:
-                checkpos = [checkpos[0]+tempvis[0], checkpos[1] + tempvis[1]]
-
+                NWDist = 9001.0
 
         checkpos = copy.deepcopy(self.position)
         NEDist = -1.0
         tempvis = [-math.sin(self.rotation+((math.pi/4))), math.cos(self.rotation+((math.pi/4)))]
         while NEDist == -1.0:
-            if Grid.grid[int(round(checkpos[0]))][int(round(checkpos[1]))]:
-                NEDist = np.sqrt((checkpos[0]-self.position[0])**2 + (checkpos[1]-self.position[1])**2)
+            x = int(round(checkpos[0]))
+            y = int(round(checkpos[1]))
+            if x >= 0 and x < c.game['width'] and y >= 0 and y < c.game['height']:
+                if Grid.grid[x][y]:
+                    NEDist = np.sqrt((checkpos[0]-self.position[0])**2 + (checkpos[1]-self.position[1])**2)
+                else:
+                    checkpos = [checkpos[0]+tempvis[0], checkpos[1] + tempvis[1]]
             else:
-                checkpos = [checkpos[0]+tempvis[0], checkpos[1] + tempvis[1]]
+                NEDist = 9001.0
 
         # get vector to closest mine
         closest = self.get_closest_target(targets)

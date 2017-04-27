@@ -9,8 +9,8 @@ maxes = []
 avgs = []
 
 while s != '':
-	avgs.append(int(s))
-	maxes.append(int(s2))
+	avgs.append(float(s))
+	maxes.append(float(s2))
 	s = f.readline()
 	s2 = f2.readline()
 

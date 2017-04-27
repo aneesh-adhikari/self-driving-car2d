@@ -78,23 +78,22 @@ def run_GA():
     for g in range(1, NGEN):
         my_game.generation += 1
         my_game.reset()
-        #select 25 of best individuals
-        offspring = toolbox.select(pop, k = int(num_agents*(1-percent_best)))
 
         #choose top given percentile of best parents
-        parents = tools.selBest(pop, k = int(percent_best*num_agents))
+        parents = toolbox.select(pop, k = int((1-percent_best)*num_agents))
+        keep = tools.selBest(pop, k = int(percent_best*num_agents))
 
         #perform crossover and mutation on offspring
-        offspring = algorithms.varAnd(offspring,toolbox,CXPB,MUTPB)
+        offspring = algorithms.varAnd(parents,toolbox,CXPB,MUTPB)
 
         #combine parents and offspring using elitism
-        pop[:] = offspring + parents
+        pop[:] = offspring + keep
         #add agents with new brains
         for ind in pop:
             ann = ANN(num_inputs, num_hidden_nodes, num_outputs, ind, num_hidden_layers)
             my_game.add_agent(ann)
         if ( g != NGEN-1):
-            a = my_game.game_loop(True)
+            a = my_game.game_loop(False)
         else:
             _ = raw_input("waiting")
             a = my_game.game_loop(True)

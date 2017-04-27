@@ -42,11 +42,11 @@ gates = ["x30", "x60", "x90", "x120", "x150", "x180", "x210", "x240",
 
 ga = dict(
     cx_prob         = .15,
-    mut_prob        = .2,
+    mut_prob        = .1,
     mate_prob       = .15,
     n_gens          = 30,
-    mut_sigma       = 10,
+    mut_sigma       = 1,
     mut_mu          = 0,
-    percent_best    = .1,
-    tourn_size      = 5
+    percent_best    = .2,
+    tourn_size      = 10
 )

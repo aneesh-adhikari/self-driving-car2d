@@ -1,4 +1,5 @@
 # game.py
+from __future__ import division
 from pygame.locals import *
 import pygame
 import math
@@ -77,18 +78,26 @@ class Game:
             if i % c.game['delay'] == 0: self.update_terminal()
             if display: self.process_graphic()
 
+        startx = c.game['agent_startx']
+        starty = c.game['agent_starty']
+        for a in self.agents:
+            a.fitness += np.sqrt((a.position[0]-startx)**2 + (a.position[1]-starty)**2)/10
+        self.agents = util.quicksort(self.agents)
         return [a.fitness for a in self.agents]
 
     def game_logic(self):
         numCrashed = 0
         for a in self.agents:
-            if not a.check_collision(self.targets) != -1:
+            if not a.check_collision(self.targets) != -1 and not a.done:
                 a.update(self.targets)
-            else:
+            elif not a.done:
                 numCrashed += 1
 
             pos = a.position
             index = a.gate
+
+            if pos[1] <= 15:
+                a.done = True
 
             if index == 19:
                 continue
@@ -97,10 +106,10 @@ class Game:
                 num = int(s[1:])
                 if "x" in s and pos[0] > num:
                     a.gate += 1
-                    a.fitness += 1
+                    a.fitness += index
                 elif "y" in s and pos[1] < num:
                     a.gate += 1
-                    a.fitness += 5
+                    a.fitness += 2*index
 
         self.agents = util.quicksort(self.agents)
         return numCrashed
