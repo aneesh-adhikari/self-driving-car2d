@@ -14,7 +14,6 @@ from ANN import ANN
 from deap import base, creator, tools, algorithms
 import numpy as np
 import sys
-import matplotlib.pyplot as plt
 
 
 def run_GA(seed):
@@ -68,8 +67,14 @@ def run_GA(seed):
     for ind, fit in zip(pop, fitnesses):
         ind.fitness.values = fit
 
+<<<<<<< HEAD
     bestfile = open('best' + str(seed) + '.txt', 'w+')
     avgfile = open('avg' + str(seed) + '.txt', 'w+')
+=======
+    bestfile = open('best.txt', 'w+')
+    avgfile = open('avg.txt', 'w+')
+    finalpop = open('pop.txt', 'w+')
+>>>>>>> 0513813ac022e7ffcd8191e3baec570de97866f2
 
     bestfile.write(str(a[0])+'\n')
     avgfile.write(str(avg)+'\n')
@@ -100,6 +105,10 @@ def run_GA(seed):
         fitnesses = list(map(toolbox.evaluate, offspring))
         for ind, fit in zip(offspring, fitnesses):
             ind.fitness.values = fit
+        for i in pop:
+            for val in i:
+                finalpop.write(str(val) + " ")
+            finalpop.write('\n')
 
         #combine parents and offspring using elitism
         pop[:] = offspring + keep
@@ -112,6 +121,7 @@ def run_GA(seed):
     a = my_game.game_loop(True)
 
 
+    finalpop.close()
     avgfile.close()
     bestfile.close()
     pygame.quit()
