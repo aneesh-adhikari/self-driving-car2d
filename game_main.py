@@ -100,18 +100,16 @@ def run_GA(seed):
         fitnesses = list(map(toolbox.evaluate, offspring))
         for ind, fit in zip(offspring, fitnesses):
             ind.fitness.values = fit
-        for i in pop:
-            for val in i:
-                finalpop.write(str(val) + " ")
-            finalpop.write('\n')
-
         #combine parents and offspring using elitism
         pop[:] = offspring + keep
-
         pop = sorted(pop, key=lambda a: a.fitness.values, reverse=False)
 
     # _ = raw_input("waiting") #uncomment to force wait before last gen
     a = my_game.game_loop(True)
+    for i in pop:
+        for val in i:
+            finalpop.write(str(val) + " ")
+        finalpop.write('\n')
 
 
     finalpop.close()
