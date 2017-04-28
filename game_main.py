@@ -67,20 +67,15 @@ def run_GA(seed):
     for ind, fit in zip(pop, fitnesses):
         ind.fitness.values = fit
 
-<<<<<<< HEAD
     bestfile = open('best' + str(seed) + '.txt', 'w+')
     avgfile = open('avg' + str(seed) + '.txt', 'w+')
-=======
-    bestfile = open('best.txt', 'w+')
-    avgfile = open('avg.txt', 'w+')
-    finalpop = open('pop.txt', 'w+')
->>>>>>> 0513813ac022e7ffcd8191e3baec570de97866f2
+    finalpop = open('pop' + str(seed) + '.txt', 'w+')
 
     bestfile.write(str(a[0])+'\n')
     avgfile.write(str(avg)+'\n')
 
     #training
-    for g in range(1, NGEN):
+    for g in range(1, NGEN+1):
         my_game.generation += 1
         my_game.reset()
 
@@ -114,10 +109,8 @@ def run_GA(seed):
         pop[:] = offspring + keep
 
         pop = sorted(pop, key=lambda a: a.fitness.values, reverse=False)
-        # print [p.fitness for p in pop]
-        # quit()
 
-    # _ = raw_input("waiting")
+    # _ = raw_input("waiting") #uncomment to force wait before last gen
     a = my_game.game_loop(True)
 
 
