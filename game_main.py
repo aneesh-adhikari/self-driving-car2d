@@ -17,7 +17,7 @@ import sys
 import matplotlib.pyplot as plt
 
 
-def run_GA():
+def run_GA(seed):
     #create neural Network Configurations
     num_inputs = c.nnet['n_inputs']
     num_hidden_nodes = c.nnet['n_hidden_nodes']
@@ -30,7 +30,7 @@ def run_GA():
     numWeights += num_outputs*(num_hidden_nodes[-1]+1) #last hidden to output
 
     #get constants
-    CXPB, MUTPB, MATPB = c.ga['cx_prob'], c.ga['mut_prob'], c.ga['mate_prob']
+    CXPB, MUTPB, ALPHA = c.ga['cx_prob'], c.ga['mut_prob'], c.ga['alpha']
     NGEN, TSIZE = c.ga['n_gens'], c.ga['tourn_size']
     mu, sigma, percent_best = c.ga['mut_mu'], c.ga['mut_sigma'], c.ga['percent_best']
     num_agents = c.game['n_agents']
@@ -50,7 +50,7 @@ def run_GA():
 
     #define selection, crossover, and mutuation functions
     toolbox.register("select", tools.selTournament, tournsize = TSIZE)
-    toolbox.register("mate", tools.cxUniform, indpb = MATPB)
+    toolbox.register("mate", tools.cxUniform, indpb = ALPHA)
     toolbox.register("mutate", tools.mutGaussian, mu = mu, sigma = sigma, indpb = MUTPB)
 
     pop = toolbox.population(n = num_agents)
@@ -68,8 +68,8 @@ def run_GA():
     for ind, fit in zip(pop, fitnesses):
         ind.fitness.values = fit
 
-    bestfile = open('best.txt', 'w+')
-    avgfile = open('avg.txt', 'w+')
+    bestfile = open('best' + str(seed) + '.txt', 'w+')
+    avgfile = open('avg' + str(seed) + '.txt', 'w+')
 
     bestfile.write(str(a[0])+'\n')
     avgfile.write(str(avg)+'\n')
@@ -86,29 +86,37 @@ def run_GA():
         #perform crossover and mutation on offspring
         offspring = algorithms.varAnd(parents,toolbox,CXPB,MUTPB)
 
-        #combine parents and offspring using elitism
-        pop[:] = offspring + keep
         #add agents with new brains
-        for ind in pop:
+        for ind in offspring:
             ann = ANN(num_inputs, num_hidden_nodes, num_outputs, ind, num_hidden_layers)
             my_game.add_agent(ann)
-        if ( g != NGEN-1):
-            a = my_game.game_loop(False)
-        else:
-            _ = raw_input("waiting")
-            a = my_game.game_loop(True)
+        a = my_game.game_loop(False)
+
         avg = sum(a) / num_agents
         avgfile.write(str(avg)+'\n')
         bestfile.write(str(a[0]) + '\n')
+
         #collect fitness values from the simulation
-        fitnesses = list(map(toolbox.evaluate, pop))
-        for ind, fit in zip(pop, fitnesses):
+        fitnesses = list(map(toolbox.evaluate, offspring))
+        for ind, fit in zip(offspring, fitnesses):
             ind.fitness.values = fit
+
+        #combine parents and offspring using elitism
+        pop[:] = offspring + keep
+
+        pop = sorted(pop, key=lambda a: a.fitness.values, reverse=False)
+        # print [p.fitness for p in pop]
+        # quit()
+
+    # _ = raw_input("waiting")
+    a = my_game.game_loop(True)
 
 
     avgfile.close()
     bestfile.close()
     pygame.quit()
-
-random.seed(3)
-run_GA()
+# random.seed(2)
+# run_GA(2)
+for i in range(0, 10):
+    random.seed(i)
+    run_GA(i)
