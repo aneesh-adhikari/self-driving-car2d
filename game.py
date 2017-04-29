@@ -57,10 +57,12 @@ class Game:
         return None
 
     # game_loop(False) runs the game without graphics
-    def game_loop(self, display=True):
+    def game_loop(self, display=True, save_img=False):
         for i in range(c.game['g_time']):
 
             num = self.game_logic()
+            if save_img:
+                pygame.image.save(self.display, 'frame'+str(i)+'.jpg')
 
             if num == c.game['n_agents']:
                 break

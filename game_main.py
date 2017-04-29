@@ -8,6 +8,7 @@ import util
 import game
 import config as c
 import random as r
+import copy
 from agent import Agent as A
 from target import Target as T
 from ANN import ANN
@@ -59,7 +60,8 @@ def run_GA(seed):
         ann = ANN(num_inputs, num_hidden_nodes, num_outputs, ind, num_hidden_layers)
         my_game.add_agent(ann)
 
-    a = my_game.game_loop(True)    #initial game run
+    #initial game run
+    a = my_game.game_loop(True)   #add save_img=True to collect images
     avg = sum(a) / num_agents
 
     #collect fitness values from simulation
@@ -90,7 +92,7 @@ def run_GA(seed):
         for ind in offspring:
             ann = ANN(num_inputs, num_hidden_nodes, num_outputs, ind, num_hidden_layers)
             my_game.add_agent(ann)
-        a = my_game.game_loop(False)
+        a = my_game.game_loop(False)#add save_img=True to collect images
 
         avg = sum(a) / num_agents
         avgfile.write(str(avg)+'\n')
@@ -105,7 +107,12 @@ def run_GA(seed):
         pop = sorted(pop, key=lambda a: a.fitness.values, reverse=False)
 
     # _ = raw_input("waiting") #uncomment to force wait before last gen
-    a = my_game.game_loop(True)
+    my_game.reset()
+    for ind in pop:
+        ann = ANN(num_inputs, num_hidden_nodes, num_outputs, ind, num_hidden_layers)
+        my_game.add_agent(ann)
+    a = my_game.game_loop(True) #add save_img=True to collect images
+    #collect the final neural network's weights
     for i in pop:
         for val in i:
             finalpop.write(str(val) + " ")
@@ -116,8 +123,7 @@ def run_GA(seed):
     avgfile.close()
     bestfile.close()
     pygame.quit()
-# random.seed(2)
-# run_GA(2)
+
 for i in range(0, 10):
     random.seed(i)
     run_GA(i)
