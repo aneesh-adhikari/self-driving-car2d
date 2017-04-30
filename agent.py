@@ -1,8 +1,6 @@
 # agent.py
 from __future__ import division
 import math
-import pygame
-import random as r
 import config as c
 import copy
 import numpy as np

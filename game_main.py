@@ -1,21 +1,11 @@
 #!/usr/bin/env python
 from __future__ import division
 import random
-from game import Game
 import pygame
-import math
-import time
-import util
 import game
 import config as c
-import random as r
-import copy
-from agent import Agent as A
-from target import Target as T
 from ANN import ANN
 from deap import base, creator, tools, algorithms
-import numpy as np
-import sys
 
 
 def run_GA(seed):
