@@ -55,6 +55,13 @@ class Game:
                     continue
                 return a.fitness
         return None
+    def get_ind_IDNUM(self, ind):
+        for a in self.agents:
+            for i,weight in enumerate(a.brain.weights):
+                if weight != ind[i]:
+                    continue
+                return a.number
+        return None
 
     # game_loop(False) runs the game without graphics
     def game_loop(self, display=True, save_img=False):

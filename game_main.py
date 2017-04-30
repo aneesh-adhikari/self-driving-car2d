@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+from __future__ import division
 import random
 from game import Game
 import pygame
@@ -73,6 +74,7 @@ def run_GA(seed):
     avgfile = open('avg' + str(seed) + '.txt', 'w+')
     finalpop = open('pop' + str(seed) + '.txt', 'w+')
 
+
     bestfile.write(str(a[0])+'\n')
     avgfile.write(str(avg)+'\n')
 
@@ -88,8 +90,11 @@ def run_GA(seed):
         #perform crossover and mutation on offspring
         offspring = algorithms.varAnd(parents,toolbox,CXPB,MUTPB)
 
+        #combine parents and offspring using elitism
+        pop[:] = offspring + keep
+
         #add agents with new brains
-        for ind in offspring:
+        for ind in pop:
             ann = ANN(num_inputs, num_hidden_nodes, num_outputs, ind, num_hidden_layers)
             my_game.add_agent(ann)
         a = my_game.game_loop(False)#add save_img=True to collect images
@@ -102,9 +107,7 @@ def run_GA(seed):
         fitnesses = list(map(toolbox.evaluate, offspring))
         for ind, fit in zip(offspring, fitnesses):
             ind.fitness.values = fit
-        #combine parents and offspring using elitism
-        pop[:] = offspring + keep
-        pop = sorted(pop, key=lambda a: a.fitness.values, reverse=False)
+
 
     # _ = raw_input("waiting") #uncomment to force wait before last gen
     my_game.reset()
@@ -123,6 +126,7 @@ def run_GA(seed):
     avgfile.close()
     bestfile.close()
     pygame.quit()
+
 
 for i in range(0, 10):
     random.seed(i)
